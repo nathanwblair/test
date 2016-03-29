@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Material.h"
 #include "BoundingSphere.h"
+#include "Transform.h"
 
 #include <FBXFile.h>
 
@@ -19,7 +20,7 @@ public:
 	~Mesh();
 
 	FBXFile* fbx;
-	glm::vec3 position;
+	Transform transform;
 
 	ShaderProgram shaderProgram;
 	RenderData renderer;
@@ -27,7 +28,7 @@ public:
 	BoundingSphere boundingSphere;
 	vector<Material> materials;
 
-	void Load(string path) override;
+	void Load(string path);
 
 	void Init(FBXFile * fbx);
 

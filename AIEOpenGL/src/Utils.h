@@ -1,7 +1,7 @@
 #pragma once
-#define GLM_SWIZZLE_XYZW 
 #include "gl_core_4_4.h"
 #include "GLFW/glfw3.h"
+#define GLM_SWIZZLE_XYZW 
 #include "glm/glm.hpp"
 #include <vector>
 #include <string>
@@ -34,6 +34,7 @@ struct GL
 	static uint SizeOf(Primitive primitiveType);
 };
 
+vector<float> GeneratePerlin(uint length);
 
 string FromFile(string path);
 

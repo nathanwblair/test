@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <glm\gtc\noise.hpp>
+
 #define MAKE_CASE(slot_num) case slot_num: \
 		return GL_TEXTURE##slot_num
 
@@ -90,4 +92,36 @@ GLenum ToGLSlot(int slot)
 	default:
 		break;
 	}
+}
+
+vector<float> GeneratePerlin(uint length)
+{
+	vector<float> perlinData;
+	perlinData.resize(length * length);
+
+	auto octaves = 6;
+
+	auto scale = (1.0f / length) * 3;
+
+	for (int x = 0; x < (int)length; ++x)
+	{
+		for (int y = 0; y < (int)length; ++y)
+		{
+			float amplitude = 1.f;
+			float persistence = 0.3f;
+			perlinData[y * length + x] = 0;
+
+			for (int o = 0; o < octaves; ++o)
+			{
+				float freq = powf(2, (float)o);
+				float perlin_sample = glm::perlin(glm::vec2((float)x, (float)y) * scale * freq) * 0.5f + 0.5f;
+
+				perlinData[y * length + x] += perlin_sample * amplitude;
+
+				amplitude *= persistence;
+			}
+		}
+	}
+
+	return perlinData;
 }

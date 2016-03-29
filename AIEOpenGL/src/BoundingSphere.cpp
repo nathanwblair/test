@@ -77,7 +77,7 @@ bool BoundingSphere::IsTouchingFrustumPlanes(const glm::mat4& transform, glm::ve
 
 	for (uint i = 0; i < 6; i++)
 	{
-		float d = glm::dot(vec3(planes[i]), center + positionOfBoundingSphere) + planes[i].w;
+		float d = glm::dot(vec3(planes[i]), center + (positionOfBoundingSphere)) + planes[i].w;
 
 		if (d < -radius)
 		{

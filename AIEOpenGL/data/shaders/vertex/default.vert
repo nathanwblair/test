@@ -15,16 +15,17 @@ out vec4 vBinormal;
 out vec2 vTexCoords;
 
 uniform mat4 ProjectionView;
+uniform mat4 Model;
 
 void main()
 {
-	gl_Position = ProjectionView * Position;
+	gl_Position = ProjectionView * Model * Position;
 	
-	vNormal = Normal;
-	vTangent = Tangent;
-	vBinormal = Binormal;
+	vNormal = Model * Normal;
+	vTangent = Model * Tangent;
+	vBinormal = Model * Binormal;
 	
-	vPosition = Position;
+	vPosition = Model * Position;
 	
 	vTexCoords = TexCoords;
 }

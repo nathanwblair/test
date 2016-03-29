@@ -3,7 +3,7 @@
 
 #include "stb_image.h"
 
-Texture::Texture()
+Texture::Texture() : hasAlpha(false)
 {
 }
 
@@ -18,16 +18,31 @@ void Texture::Load(string path)
 	auto format = 0;
 	unsigned char* _data;
 
+	auto data_format = STBI_default;
+
+	if (path.substr(path.find_last_of('.')) == ".png")
+	{
+		data_format = STBI_rgb_alpha;
+	}
+
 	// load diffuse map
 	_data = stbi_load((path).c_str(),
 		&width,
 		&height,
 		&format,
-		STBI_default);
+		data_format);
 
 	Create();
 
-	PushData(_data);
+	if (format == 4)
+	{
+		PushRGBAData(_data);
+		hasAlpha = true;
+	}
+	else
+	{
+		PushData(_data);
+	}
 
 	stbi_image_free(_data);
 }
@@ -97,6 +112,20 @@ void Texture::PushData(uchar* _data)
 	Use();
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, _data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	Unbind();
+
+	data.clear();
+}
+
+void Texture::PushRGBAData(uchar* _data)
+{
+	Use();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _data);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

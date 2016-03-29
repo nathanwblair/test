@@ -1,0 +1,2 @@
+vert=vertex/textured_grid_normalized.vert
+frag=fragment/textured_grid_normalized.frag

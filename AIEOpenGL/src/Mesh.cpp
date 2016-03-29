@@ -29,7 +29,7 @@ void Mesh::Load(string path)
 {
 	auto _fbx = new FBXFile();
 	_fbx->load(path.c_str());
-	
+
 	Init(_fbx);
 }
 
@@ -129,10 +129,11 @@ void Mesh::Draw(const Camera& camera, const vec3& lightDirection, const vec3& li
 	shaderProgram.SetUniform("LightDir", lightDirection);
 	//shaderProgram.SetUniform("LightColor", lightColor);
 	shaderProgram.SetUniform("CameraPos", vec3(camera.getTransform()[3]));
+	shaderProgram.SetUniform("Model", transform.GetTransform());
 	//shaderProgram.SetUniform("SpecPow", 5.0f);
 
 	// Render if on screen
-	if (boundingSphere.IsTouchingFrustumPlanes(camera.getProjectionView(), position))
+	if (boundingSphere.IsTouchingFrustumPlanes(camera.getProjectionView(), vec3(transform.GetTransform()[3])))
 	{
 		if (!isVisible)
 		{

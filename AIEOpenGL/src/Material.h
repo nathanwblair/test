@@ -5,6 +5,7 @@
 #include "ShaderProgram.h"
 
 #include <unordered_map>
+#include <map>
 #include <FBXFile.h>
 
 class Material :
@@ -12,6 +13,7 @@ class Material :
 {
 public:
 	std::unordered_map<string, Texture*> textures;
+	static std::map<string, Texture*> textureInstances;
 
 	Material();
 	~Material();

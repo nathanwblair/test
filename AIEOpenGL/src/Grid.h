@@ -14,11 +14,12 @@ public:
 		glm::vec4 position;
 		glm::vec4 color;
 		glm::vec2 uv;
+		glm::vec4 normal;
+		glm::vec3 tangnet;
 	};
 
 	Grid(uint _rows = 10, uint _columns = 10, float heightScale = 1.0f);
 	~Grid();
-
 	ShaderProgram shaderProgram;
 	RenderData renderer;
 

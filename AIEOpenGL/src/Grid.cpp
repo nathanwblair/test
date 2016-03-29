@@ -28,22 +28,26 @@ void Grid::EnableAttributes()
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangnet));
 }
 
 
 void Grid::Create()
 {
 	Vertex* aoVertices = new Vertex[rows * columns];
-	for (uint r = 0; r < rows; ++r) {
-		for (uint c = 0; c < columns; ++c) {
-			aoVertices[r * columns + c].position = vec4(
-				(float)c, 0, (float)r, 1);
+	for (uint r = 0; r < rows; ++r)
+	{
+		for (uint c = 0; c < columns; ++c)
+		{
+			aoVertices[r * columns + c].position = vec4((float)c, 0, (float)r, 1);
 
 			vec2 uv;
 			uv.x = (float)c / (float)columns;
 			uv.y = 1.0f - ((float)r / (float)rows);
-			
+
 			aoVertices[r * columns + c].uv = uv;
+
 
 			// create some arbitrary colour based off something 
 			// that might not be related to tiling a texture
@@ -57,8 +61,10 @@ void Grid::Create()
 	uint* auiIndices = new uint[(rows - 1) * (columns - 1) * 6];
 
 	uint index = 0;
-	for (uint r = 0; r < (rows - 1); ++r) {
-		for (uint c = 0; c < (columns - 1); ++c) {
+	for (uint r = 0; r < (rows - 1); ++r)
+	{
+		for (uint c = 0; c < (columns - 1); ++c)
+		{
 			// triangle 1
 			auiIndices[index++] = r * columns + c;
 			auiIndices[index++] = (r + 1) * columns + c;
@@ -90,6 +96,7 @@ void Grid::Create()
 
 	delete[] aoVertices;
 }
+
 
 
 void Grid::Update(float deltaTime)

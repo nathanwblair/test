@@ -4,6 +4,8 @@ class Texture :
 	public GLAsset
 {
 public:
+	bool hasAlpha;
+
 	Texture();
 	~Texture();
 
@@ -27,6 +29,7 @@ public:
 
 	void PushData();
 	void PushData(uchar* data);
+	void PushRGBAData(uchar* data);
 
 	bool CheckGLErrors() override;
 	

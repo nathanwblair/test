@@ -1,6 +1,6 @@
 #include "Material.h"
 
-
+std::map<string, Texture*> Material::textureInstances = std::map<string, Texture*>();
 
 Material::Material()
 {
@@ -46,11 +46,21 @@ void Material::Load(FBXMaterial * material)
 		
 		if (material->textures[index])
 		{
+			auto& iter = textureInstances.find(material->textures[index]->path);
+
+			if (iter != textureInstances.end())
+			{
+				Add(name, iter->second);
+			}
+			else
+			{
+				Add(name, material->textures[index]->path);
+				textureInstances[material->textures[index]->path] = textures[name];
+			}
 			//Add(name, 
 			//	material->textures[index]->data, 
 			//	material->textures[index]->width, 
 			//	material->textures[index]->height);
-			Add(name, material->textures[index]->path);
 		}
 		else
 		{

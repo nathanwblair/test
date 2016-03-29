@@ -12,8 +12,8 @@ public:
 	~TexturedGrid();
 
 	void Create() override;
+	void Create(const vector<float>& heightMap);
 	void InitShaderProgram(string name="grid") override;
-	void GeneratePerlin();
 
 	Material material;
 };
