@@ -1,13 +1,17 @@
 #version 410
 
-in vec4 Position;
-in vec4 Colour;
-out vec4 colour;
+layout(location=0) in vec3 Position;
+layout(location=1) in vec3 Velocity;
+layout(location=2) in float Lifetime;
+layout(location=3) in float Lifespan;
 
-uniform mat4 projectionView;
+out vec3 position;
+out float lifetime;
+out float lifespan;
 
 void main() 
 {
-    colour = Colour;
-    gl_Position = projectionView * Position;
+	position = Position;
+	lifetime = Lifetime;
+	lifespan = Lifespan;
 }

@@ -41,9 +41,15 @@ void Shader::Load(string path)
 	glShaderSource(id, 1, &pCode, 0);
 	glCompileShader(id);
 
-	CheckGLErrors();
+	loaded = CheckGLErrors();
 }
 
+void Shader::Load(string path, std::function<void(int)> initFeedback)
+{
+	Load(path);
+
+	initFeedback(id);
+}
 
 bool Shader::CheckGLErrors()
 {

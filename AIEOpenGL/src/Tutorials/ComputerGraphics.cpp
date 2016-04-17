@@ -64,7 +64,6 @@ void ComputerGraphics::shutdown() {
 
 	soulspear.GLDelete();
 	planet.GLDelete();
-	emitter.shaderProgram.GLDelete();
 
     // destroy our window properly
     destroyWindow();
@@ -81,9 +80,9 @@ bool ComputerGraphics::update(float deltaTime) {
     m_camera->update(deltaTime);
 	elapsedTime += deltaTime;
 
-	emitter.position += vec3(glm::sin(elapsedTime), 0, 0);
+	//emitter.position += vec3(glm::sin(elapsedTime), 0, 0);
 
-	emitter.Update(deltaTime, m_camera->getTransform());
+	//emitter.Update(deltaTime, m_camera->getTransform());
     // clear the gizmos out for this frame
     Gizmos::clear();
 	terrain.Update(deltaTime);
@@ -115,10 +114,7 @@ void ComputerGraphics::draw() {
 	terrain.material.Init(terrain.shaderProgram);
 	terrain.Draw(*m_camera);
 
-	
-	emitter.shaderProgram.Use();
-	emitter.shaderProgram.SetUniform("projectionView", m_camera->getProjectionView());
-	emitter.Draw();
+	emitter.Draw(glfwGetTime(), m_camera->getTransform(), m_camera->getProjectionView());
 	soulspear.Draw(*m_camera, m_lightDir, lightColor);
 	planet.Draw(*m_camera, m_lightDir, lightColor);
 

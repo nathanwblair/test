@@ -5,6 +5,9 @@
 #include "RenderData.h"
 #include "ShaderProgram.h"
 
+#define UPDATE_SHADER 1
+#define DRAW_SHADER 0
+
 class ParticleEmitter :
 	public Asset
 {
@@ -37,10 +40,15 @@ public:
 	glm::vec4 startColor;
 	glm::vec4 endColor;
 
-	vector<Particle::Vertex> vertices;
+	float lastDrawTime;
 
-	RenderData renderData;
-	ShaderProgram shaderProgram;
+	vector<Particle> vertices;
+
+	RenderData * currentBuffer;
+	RenderData * otherBuffer;
+
+	RenderData renderData[2];
+	ShaderProgram shaderProgram[2];
 
 	void Init(uint maxParticles,
 		uint emitRate,
@@ -58,7 +66,14 @@ public:
 	void Emit();
 
 	void Update(float deltaTime, const glm::mat4& cameraTransform);
+	
+	void Draw(float time,
+		const glm::mat4& cameraTransform,
+		const glm::mat4& projectionView);
 
-	void Draw();
+	void SetupBuffer(RenderData& renderer,
+		int maxParticles,
+		const vector<Particle>& vertices,
+		const vector<uint>& indices);
 };
 

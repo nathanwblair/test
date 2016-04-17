@@ -22,10 +22,12 @@ public:
 	{
 
 	}
+
 	virtual void Use() 
 	{
 		// Do nothing
 	}
+
 	virtual void Unbind()
 	{
 		// Do nothing

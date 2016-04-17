@@ -34,11 +34,13 @@ public:
 #pragma endregion
 
 	void Load(string path) override;
+	void Load(string path, std::function<void(int)> initFeedback);
 	void Unload() override;
 
 	void GLDelete() override;
 	bool CheckGLErrors() override;
 
+	Shader geometryShader;
 	Shader vertexShader;
 	Shader fragmentShader;
 };

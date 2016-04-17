@@ -125,3 +125,22 @@ vector<float> GeneratePerlin(uint length)
 
 	return perlinData;
 }
+
+#pragma region Vertex Utils
+
+void PushAttribute(uint attributeSize, uint vertexSize, size_t offset)
+{
+	glEnableVertexAttribArray(VAO_NUM_ATTRIBUTES);
+	glVertexAttribPointer(VAO_NUM_ATTRIBUTES, attributeSize, GL_FLOAT, GL_FALSE, vertexSize, (void*)offset);
+
+	VAO_NUM_ATTRIBUTES++;
+	VAO_NUM_FLOATS += attributeSize;
+}
+
+void ClearVAOMetadata()
+{
+	VAO_NUM_FLOATS = 0;
+	VAO_NUM_ATTRIBUTES = 0;
+}
+
+#pragma endregion

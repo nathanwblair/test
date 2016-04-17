@@ -39,3 +39,19 @@ vector<float> GeneratePerlin(uint length);
 string FromFile(string path);
 
 GLenum ToGLSlot(int texture_slot);
+
+#pragma region Vertex Utils
+
+static uint VAO_NUM_FLOATS;
+static uint VAO_NUM_ATTRIBUTES;
+
+#define subscribe(vertex_t, attribute_name) \
+{ \
+	auto offset = ((size_t)&reinterpret_cast<char const volatile&>((((vertex_t*)0)->attribute_name))); \
+	PushAttribute(sizeof(vertex_t::attribute_name) / sizeof(float), sizeof(vertex_t), offset);\
+}
+
+void PushAttribute(uint attributeSize, uint vertexSize, size_t offset);
+void ClearVAOMetadata();
+
+#pragma endregion

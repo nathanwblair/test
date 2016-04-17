@@ -66,51 +66,62 @@ void Mesh::Create()
 								   vertex.position.z);
 		}
 
-
-		glEnableVertexAttribArray(0); // position
-		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,
-			sizeof(FBXVertex), 0);
-
-		glEnableVertexAttribArray(1); // color
-		glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::ColourOffset);
-
-		glEnableVertexAttribArray(2); // normal
-		glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::NormalOffset);
+		ClearVAOMetadata();
+		subscribe(FBXVertex, position);
+		subscribe(FBXVertex, colour);
+		subscribe(FBXVertex, normal);
+		subscribe(FBXVertex, tangent);
+		subscribe(FBXVertex, binormal);
+		subscribe(FBXVertex, indices);
+		subscribe(FBXVertex, weights);
+		subscribe(FBXVertex, texCoord1);
+		subscribe(FBXVertex, texCoord2);
 
 
-		glEnableVertexAttribArray(3); // tangent
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::TangentOffset);
+		//glEnableVertexAttribArray(0); // position
+		//glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,
+		//	sizeof(FBXVertex), 0);
 
-		glEnableVertexAttribArray(4); // BiNormal
-		glVertexAttribPointer(4, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::BiNormalOffset);
+		//glEnableVertexAttribArray(1); // color
+		//glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::ColourOffset);
 
-		glEnableVertexAttribArray(5); // Indices
-		glVertexAttribPointer(5, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::IndicesOffset);
+		//glEnableVertexAttribArray(2); // normal
+		//glVertexAttribPointer(2, 4, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::NormalOffset);
 
-		glEnableVertexAttribArray(6); // Weights
-		glVertexAttribPointer(6, 4, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::WeightsOffset);
 
-		glEnableVertexAttribArray(7); // TexCoord1
-		glVertexAttribPointer(7, 2, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::TexCoord1Offset);
+		//glEnableVertexAttribArray(3); // tangent
+		//glVertexAttribPointer(3, 4, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::TangentOffset);
 
-		glEnableVertexAttribArray(8); // Texcoord2
-		glVertexAttribPointer(8, 2, GL_FLOAT, GL_TRUE,
-			sizeof(FBXVertex),
-			((char*)0) + FBXVertex::TexCoord2Offset);
+		//glEnableVertexAttribArray(4); // BiNormal
+		//glVertexAttribPointer(4, 4, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::BiNormalOffset);
+
+		//glEnableVertexAttribArray(5); // Indices
+		//glVertexAttribPointer(5, 4, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::IndicesOffset);
+
+		//glEnableVertexAttribArray(6); // Weights
+		//glVertexAttribPointer(6, 4, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::WeightsOffset);
+
+		//glEnableVertexAttribArray(7); // TexCoord1
+		//glVertexAttribPointer(7, 2, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::TexCoord1Offset);
+
+		//glEnableVertexAttribArray(8); // Texcoord2
+		//glVertexAttribPointer(8, 2, GL_FLOAT, GL_TRUE,
+		//	sizeof(FBXVertex),
+		//	((char*)0) + FBXVertex::TexCoord2Offset);
 
 		renderer.Unbind();
 

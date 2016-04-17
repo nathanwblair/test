@@ -8,7 +8,8 @@
 
 ShaderProgram::ShaderProgram()
 	: vertexShader(Shader::ShaderType::Vertex),
-	fragmentShader(Shader::ShaderType::Fragment)
+	fragmentShader(Shader::ShaderType::Fragment),
+	geometryShader(Shader::ShaderType::Geometry)
 {
 }
 
@@ -17,6 +18,59 @@ ShaderProgram::~ShaderProgram()
 {
 }
 
+void ShaderProgram::Load(string path, std::function<void(int)> initFeedback)
+{
+	location = path;
+
+	assert(!loaded && "Already have loaded a shader");
+
+	std::ifstream file;
+	file.open(path, std::ifstream::in);
+
+	assert(file.good() && "Failed to open shader file!");
+
+	string programPath = path.substr(0, path.find_last_of('/') + 1);
+
+	while (file.good())
+	{
+		string line = "";
+		std::getline(file, line);
+
+		if (line == "")
+			break;
+
+		auto shaderPath = programPath + line.substr(5);
+		auto shaderToLoad = line.substr(0, 4);
+
+		if (shaderToLoad == "vert")
+		{
+			vertexShader.Load(shaderPath, initFeedback);
+		}
+		else if (shaderToLoad == "frag")
+		{
+			fragmentShader.Load(shaderPath, initFeedback);
+		}
+		else if (shaderToLoad == "geom")
+		{
+			geometryShader.Load(shaderPath, initFeedback);
+		}
+	}
+
+	Create();
+	Attach(vertexShader);
+	Attach(fragmentShader);
+	Attach(geometryShader);
+
+	initFeedback(id);
+
+	Link();
+
+	CheckGLErrors();
+
+	vertexShader.GLDelete();
+	fragmentShader.GLDelete();
+	geometryShader.GLDelete();
+}
 
 void ShaderProgram::Load(string path)
 {
@@ -50,17 +104,23 @@ void ShaderProgram::Load(string path)
 		{
 			fragmentShader.Load(shaderPath);
 		}
+		else if (shaderToLoad == "geom")
+		{
+			geometryShader.Load(shaderPath);
+		}
 	}
 
 	Create();
 	Attach(vertexShader);
 	Attach(fragmentShader);
+	Attach(geometryShader);
 	Link();
 
 	CheckGLErrors();
 
 	vertexShader.GLDelete();
 	fragmentShader.GLDelete();
+	geometryShader.GLDelete();
 }
 
 
@@ -78,7 +138,9 @@ void ShaderProgram::Create()
 
 void ShaderProgram::Attach(Shader& shader)
 {
-	glAttachShader(id, shader.id);
+	if (shader.loaded)
+		glAttachShader(id, shader.id);
+	
 }
 
 

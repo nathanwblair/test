@@ -1,5 +1,6 @@
 #include "GLAsset.h"
 #include <string>
+#include <functional>
 
 #pragma once
 class Shader 
@@ -10,7 +11,8 @@ public:
 	{
 		None,
 		Vertex = GL_VERTEX_SHADER,
-		Fragment = GL_FRAGMENT_SHADER
+		Fragment = GL_FRAGMENT_SHADER,
+		Geometry = GL_GEOMETRY_SHADER
 	};
 
 	ShaderType type;
@@ -20,6 +22,7 @@ public:
 	~Shader();
 
 	void Load(string path) override;
+	void Load(string path, std::function<void(int)> initFeedback);
 	void Unload() override;
 
 	void SetType(ShaderType type);
